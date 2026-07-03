@@ -1,0 +1,17 @@
+git checkout -b branchname  #creates the new branch with branchname i local repository
+
+do the changes and save in your local device
+
+In CMD {
+git add .   ==> this will add the files to catch memory
+
+git commit -m "updated"  ==>  (in double quotes 
+
+git config credential.username "yourusername"   ==>
+
+git push origin main or(git push)
+
+git push --set-upstream origin sateelocal  ( exception if you already have logged in with other git profile)
+
+git pull origin main ==> get the date from github repo to localdevice 
+}
