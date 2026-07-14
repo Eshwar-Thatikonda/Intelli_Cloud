@@ -1,0 +1,59 @@
+CREATE DATABASE partitions_;
+
+CREATE TABLE employee(id INT,NAME VARCHAR(50),department VARCHAR(50))
+PARTITION BY LIST COLUMNS(department)(
+PARTITION p_hr VALUES IN("HR"),
+PARTITION p_IT VALUES IN("IT"),
+PARTITION p_sales VALUES IN("sales"));
+
+INSERT INTO employee VALUES(101,"ram","IT"),(102,"rina","HR"),
+(103,"leela","IT");
+
+SELECT * FROM employee;
+
+
+SELECT partition_name,partition_description,
+table_rows FROM information_schema.partitions WHERE TABLE_NAME=
+"employee";
+
+SELECT * FROM employee PARTITION(p_IT);
+
+CREATE  TABLE customers(id INT,NAME VARCHAR(50))
+PARTITION BY LIST(id)(
+PARTITION p0 VALUES IN(1,2,3,4),
+PARTITION p1 VALUES IN(5,6,7,8));
+
+INSERT INTO customers VALUES (1,"ram"),(5,"rahul");
+
+SELECT partition_name,partition_description,
+table_rows FROM information_schema.partitions WHERE TABLE_NAME=
+"customers";
+SELECT * FROM customers PARTITION(p0);
+
+
+CREATE TABLE orders(o_id INT,o_date DATE)
+PARTITION BY RANGE (YEAR(o_date))(
+PARTITION p0 VALUES LESS THAN(1970),
+PARTITION p1 VALUES LESS THAN (1980),
+PARTITION p3 VALUES LESS THAN MAXVALUE);
+
+INSERT INTO orders VALUES(101,"1940-08-07"),(102,"2030-08-07");
+
+
+SELECT partition_name,partition_description,
+table_rows FROM information_schema.partitions WHERE TABLE_NAME=
+"orders";
+SELECT * FROM orders PARTITION(p3);
+
+
+CREATE TABLE products(p_id INT,p_name VARCHAR(50))
+PARTITION BY HASH(p_id)
+PARTITIONS 4;
+
+INSERT INTO products VALUES(101,"laptop"),(2,"mouse"),(3,"mobile"),
+(4,"keyboard"),(5,"chairs");
+
+SELECT partition_name,partition_description,
+table_rows FROM information_schema.partitions WHERE TABLE_NAME=
+"products";
+SELECT * FROM products PARTITION(p1);
