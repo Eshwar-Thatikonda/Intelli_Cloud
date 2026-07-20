@@ -15,3 +15,4 @@ git push --set-upstream origin sateelocal  ( exception if you already have logge
 
 git pull origin main ==> get the date from github repo to localdevice 
 }
+end 
